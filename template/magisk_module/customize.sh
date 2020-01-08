@@ -37,7 +37,7 @@ fi
 
 # extract libs
 ui_print "- Extracting module files"
-vunzip -o "$ZIPFILE" 'module.prop' 'post-fs-data.sh' -d "$MODPATH"
+vunzip -o "$ZIPFILE" 'module.prop' 'post-fs-data.sh' 'uninstall.sh' -d "$MODPATH"
 
 if [[ "$ARCH" == "x86" || "$ARCH" == "x64" ]]; then
   ui_print "- Extracting x86/64 libraries"

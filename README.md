@@ -8,7 +8,9 @@
    
    * `module/build.gradle`: "template" in variable `moduleId`, `moduleProp`
    * `module/src/main/cpp/CMakeLists.txt`: "riru_template" in `set(MODULE_NAME )`
-   
+   * `template/magisk_module/post-fs-data.sh`: `MODULE_ID="template"`
+   * `template/magisk_module/uninstall.sh`: `MODULE_ID="template"`
+
 2. Write you codes
 3. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
 

@@ -37,16 +37,16 @@ fi
 
 # extract libs
 ui_print "- Extracting module files"
-vunzip -o "$ZIPFILE" 'module.prop' 'post-fs-data.sh' 'uninstall.sh' -d "$MODPATH"
+unzip -o "$ZIPFILE" 'module.prop' 'post-fs-data.sh' 'uninstall.sh' -d "$MODPATH"
 
 if [[ "$ARCH" == "x86" || "$ARCH" == "x64" ]]; then
   ui_print "- Extracting x86/64 libraries"
-  vunzip -o "$ZIPFILE" 'system_x86/*' -d "$MODPATH"
+  unzip -o "$ZIPFILE" 'system_x86/*' -d "$MODPATH"
   mv "$MODPATH/system_x86/lib" "$MODPATH/system/lib"
   mv "$MODPATH/system_x86/lib64" "$MODPATH/system/lib64"
 else
   ui_print "- Extracting arm/arm64 libraries"
-  vunzip -o "$ZIPFILE" 'system/*' -d "$MODPATH"
+  unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH"
 fi
 
 if [[ "$IS64BIT" == "false" ]]; then

@@ -35,8 +35,8 @@ def magiskModuleProp = [
 
 def outDir = file("$rootDir/out")
 def magiskDir = file("$outDir/magisk_module")
-def zipName = "magisk-${magiskModuleProp['id']}-${magiskModuleProp['version']}.zip"
-def riruDir = "$magiskDir/data/misc/riru/modules/${moduleId}"
+def zipName = "magisk-${magiskModuleProp['id'].replace('_', '-')}-${magiskModuleProp['version']}.zip"
+def riruDir = "$magiskDir/riru"
 
 import java.nio.file.Files
 import java.security.MessageDigest

@@ -1,6 +1,7 @@
 SKIPUNZIP=1
 RIRU_PATH="/data/misc/riru"
-RIRU_MODULES_PATH="$RIRU_PATH/modules"
+RIRU_MODULE_ID="template"
+RIRU_MODULE_PATH="$RIRU_PATH/modules/$RIRU_MODULE_ID"
 
 # check architecture
 if [[ "$ARCH" != "arm" && "$ARCH" != "arm64" && "$ARCH" != "x86" && "$ARCH" != "x64" ]]; then
@@ -41,7 +42,7 @@ unzip -o "$ZIPFILE" 'module.prop' 'post-fs-data.sh' 'uninstall.sh' -d "$MODPATH"
 
 if [[ "$ARCH" == "x86" || "$ARCH" == "x64" ]]; then
   ui_print "- Extracting x86/64 libraries"
-  unzip -o "$ZIPFILE" 'system_x86/*' -d "$MODPATH"
+  unzip -o "$ZIPFILE" 'system_x86/*' -d "$MODPATH" >&2
   mv "$MODPATH/system_x86/lib" "$MODPATH/system/lib"
   mv "$MODPATH/system_x86/lib64" "$MODPATH/system/lib64"
 else
@@ -56,9 +57,10 @@ fi
 
 # Riru files
 ui_print "- Extracting extra files"
-unzip -o "$ZIPFILE" 'data/*' -d "$TMPDIR" >&2
-[[ -d "$RIRU_MODULES_PATH" ]] || mkdir -p "$RIRU_MODULES_PATH" || abort "! Can't mkdir -p $RIRU_MODULES_PATH"
-cp -af "$TMPDIR$RIRU_MODULES_PATH/." "$RIRU_MODULES_PATH" || abort "! Can't cp -af $TMPDIR$RIRU_MODULES_PATH/. $RIRU_MODULES_PATH"
+extract "$ZIPFILE" 'riru/module.prop.new' "$TMPDIR"
+[[ -d "$RIRU_MODULE_PATH" ]] || mkdir -p "$RIRU_MODULE_PATH" || abort "! Can't mkdir -p $RIRU_MODULE_PATH"
+rm -f "$RIRU_MODULE_PATH/module.prop.new"
+mv "$TMPDIR/riru/module.prop.new" "$RIRU_MODULE_PATH/module.prop.new" || abort "! Can't mv $TMPDIR/riru/module.prop.new $RIRU_MODULE_PATH/module.prop.new"
 
 # set permissions
 ui_print "- Setting permissions"

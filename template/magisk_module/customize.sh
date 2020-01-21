@@ -38,21 +38,30 @@ fi
 
 # extract libs
 ui_print "- Extracting module files"
-unzip -o "$ZIPFILE" 'module.prop' 'post-fs-data.sh' 'uninstall.sh' -d "$MODPATH"
+
+extract "$ZIPFILE" 'module.prop' "$MODPATH"
+extract "$ZIPFILE" 'post-fs-data.sh' "$MODPATH"
+extract "$ZIPFILE" 'uninstall.sh' "$MODPATH"
+#extract "$ZIPFILE" 'sepolicy.rule' "$MODPATH"
 
 if [[ "$ARCH" == "x86" || "$ARCH" == "x64" ]]; then
-  ui_print "- Extracting x86/64 libraries"
-  unzip -o "$ZIPFILE" 'system_x86/*' -d "$MODPATH" >&2
+  ui_print "- Extracting x86 libraries"
+  extract "$ZIPFILE" "system_x86/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
   mv "$MODPATH/system_x86/lib" "$MODPATH/system/lib"
-  mv "$MODPATH/system_x86/lib64" "$MODPATH/system/lib64"
-else
-  ui_print "- Extracting arm/arm64 libraries"
-  unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH"
-fi
 
-if [[ "$IS64BIT" == "false" ]]; then
-  ui_print "- Removing 64-bit libraries"
-  rm -rf "$MODPATH/system/lib64"
+  if [[ "$IS64BIT" == "true" ]]; then
+    ui_print "- Extracting x64 libraries"
+    extract "$ZIPFILE" "system_x86/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
+    mv "$MODPATH/system_x86/lib64" "$MODPATH/system/lib64"
+  fi
+else
+  ui_print "- Extracting arm libraries"
+  extract "$ZIPFILE" "system/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
+
+  if [[ "$IS64BIT" == "true" ]]; then
+    ui_print "- Extracting arm64 libraries"
+    extract "$ZIPFILE" "system/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
+  fi
 fi
 
 # Riru files

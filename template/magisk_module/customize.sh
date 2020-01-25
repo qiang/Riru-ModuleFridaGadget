@@ -49,7 +49,7 @@ if [[ "$ARCH" == "x86" || "$ARCH" == "x64" ]]; then
   extract "$ZIPFILE" "system_x86/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
   mv "$MODPATH/system_x86/lib" "$MODPATH/system/lib"
 
-  if [[ "$IS64BIT" == "true" ]]; then
+  if [[ "$IS64BIT" == true ]]; then
     ui_print "- Extracting x64 libraries"
     extract "$ZIPFILE" "system_x86/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
     mv "$MODPATH/system_x86/lib64" "$MODPATH/system/lib64"
@@ -58,7 +58,7 @@ else
   ui_print "- Extracting arm libraries"
   extract "$ZIPFILE" "system/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
 
-  if [[ "$IS64BIT" == "true" ]]; then
+  if [[ "$IS64BIT" == true ]]; then
     ui_print "- Extracting arm64 libraries"
     extract "$ZIPFILE" "system/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
   fi
@@ -66,10 +66,17 @@ fi
 
 # Riru files
 ui_print "- Extracting extra files"
-extract "$ZIPFILE" 'riru/module.prop.new' "$TMPDIR"
-[[ -d "$RIRU_MODULE_PATH" ]] || mkdir -p "$RIRU_MODULE_PATH" || abort "! Can't mkdir -p $RIRU_MODULE_PATH"
+[[ -d "$RIRU_MODULE_PATH" ]] || mkdir -p "$RIRU_MODULE_PATH" || abort "! Can't create $RIRU_MODULE_PATH"
+
+# set permission just in case
+set_perm "$RIRU_PATH" 0 0 0700
+set_perm "$RIRU_PATH/modules" 0 0 0700
+set_perm "$RIRU_MODULE_PATH" 0 0 0700
+set_perm "$RIRU_MODULE_PATH/bin" 0 0 0700
+
 rm -f "$RIRU_MODULE_PATH/module.prop.new"
-mv "$TMPDIR/riru/module.prop.new" "$RIRU_MODULE_PATH/module.prop.new" || abort "! Can't mv $TMPDIR/riru/module.prop.new $RIRU_MODULE_PATH/module.prop.new"
+extract "$ZIPFILE" 'riru/module.prop.new' "$RIRU_MODULE_PATH" true
+set_perm "$RIRU_MODULE_PATH/module.prop.new" 0 0 0600
 
 # set permissions
 ui_print "- Setting permissions"

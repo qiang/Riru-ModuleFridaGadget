@@ -1,10 +1,18 @@
 apply plugin: 'com.android.library'
 
+def moduleId = "template" // FIXME replace with yours
+def riruApiVersion = 4
+
 android {
     compileSdkVersion rootProject.ext.targetSdkVersion
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        externalNativeBuild {
+            cmake {
+                arguments "-DMODULE_NAME:STRING=riru_$moduleId"
+            }
+        }
     }
     externalNativeBuild {
         cmake {
@@ -14,14 +22,13 @@ android {
     }
 }
 
-def moduleId = "template"
 def moduleProp = [
-        name       : "Template",
-        version    : "v1.0",
-        versionCode: "1",
-        author     : "Template",
-        description: "Riru module template.",
-        api        : 4
+        name       : "Template", // FIXME replace with yours
+        version    : "v1.0", // FIXME replace with yours
+        versionCode: "1", // FIXME replace with yours
+        author     : "Template", // FIXME replace with yours
+        description: "Riru module template.", // FIXME replace with yours
+        api        : riruApiVersion
 ]
 
 def magiskModuleProp = [
@@ -65,6 +72,17 @@ android.libraryVariants.all { variant ->
         copy {
             from "$rootDir/template/magisk_module"
             into magiskDir.path
+            exclude 'riru.sh'
+        }
+        // copy riru.sh
+        copy {
+            from "$rootDir/template/magisk_module"
+            into magiskDir.path
+            include 'riru.sh'
+            filter { line ->
+                line.replaceAll('%%%RIRU_MODULE_ID%%%', moduleId)
+                .replaceAll('%%%RIRU_MIN_API_VERSION%%%', riruApiVersion.toString())
+            }
         }
         // copy .git files manually since gradle exclude it by default
         Files.copy(file("$rootDir/template/magisk_module/.gitattributes").toPath(), file("${magiskDir.path}/.gitattributes").toPath())

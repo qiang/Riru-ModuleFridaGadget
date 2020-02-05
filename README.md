@@ -4,14 +4,7 @@
 
 ## Build
 
-1. Replace all "template" to your name
-   
-   * `module/build.gradle`: "template" in variable `moduleId`, `moduleProp`
-   * `module/src/main/cpp/CMakeLists.txt`: "riru_template" in `set(MODULE_NAME )`
-   * `template/magisk_module/post-fs-data.sh`: `RIRU_MODULE_ID="template"`
-   * `template/magisk_module/uninstall.sh`: `RIRU_MODULE_ID="template"`
-   * `template/magisk_module/customize.sh`: `RIRU_MODULE_ID="template"`
-
+1. Replace module info in `module/build.gradle` (all lines end with `// FIXME replace with yours`)
 2. Write you codes
 3. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
 

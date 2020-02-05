@@ -1,9 +1,7 @@
 #!/system/bin/sh
 MODDIR=${0%/*}
-
-RIRU_PATH="/data/misc/riru"
-RIRU_MODULE_ID="template"
-RIRU_MODULE_PATH="$RIRU_PATH/modules/$RIRU_MODULE_ID"
+[ ! -f "$MODDIR/riru.sh" ] && exit 1
+. $MODDIR/riru.sh
 
 # Reset context jsut in case
 chcon -R u:object_r:system_file:s0 "$MODDIR"

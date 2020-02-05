@@ -1,6 +1,6 @@
 #!/sbin/sh
-RIRU_PATH="/data/misc/riru"
-RIRU_MODULE_ID="template"
-RIRU_MODULE_PATH="$RIRU_PATH/modules/$RIRU_MODULE_ID"
+MODDIR=${0%/*}
+[ ! -f "$MODDIR/riru.sh" ] && exit 1
+. $MODDIR/riru.sh
 
 rm -rf "$RIRU_MODULE_PATH"

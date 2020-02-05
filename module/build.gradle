@@ -62,6 +62,8 @@ static def renameOrFail(File from, File to) {
     }
 }
 
+import org.apache.tools.ant.filters.FixCrLfFilter
+
 android.libraryVariants.all { variant ->
     def task = variant.assembleProvider.get()
     task.doLast {
@@ -81,8 +83,10 @@ android.libraryVariants.all { variant ->
             include 'riru.sh'
             filter { line ->
                 line.replaceAll('%%%RIRU_MODULE_ID%%%', moduleId)
-                .replaceAll('%%%RIRU_MIN_API_VERSION%%%', riruApiVersion.toString())
+                        .replaceAll('%%%RIRU_MIN_API_VERSION%%%', riruApiVersion.toString())
             }
+            filter(FixCrLfFilter.class,
+                    eol: FixCrLfFilter.CrLf.newInstance("lf"))
         }
         // copy .git files manually since gradle exclude it by default
         Files.copy(file("$rootDir/template/magisk_module/.gitattributes").toPath(), file("${magiskDir.path}/.gitattributes").toPath())

@@ -14,7 +14,6 @@ check_riru_version() {
     ui_print    "*********************************************************"
     ui_print    "! Riru is not installed"
     ui_print    "! Please install Riru (Riru - Core) from Magisk Manager or https://github.com/RikkaApps/Riru/releases"
-    ui_print    "! If you have just installed Riru, please reboot"
     abort_clean "*********************************************************"
   fi
   RIRU_API_VERSION=$(cat "$RIRU_PATH/api_version") || RIRU_API_VERSION=0
@@ -24,7 +23,6 @@ check_riru_version() {
     ui_print    "*********************************************************"
     ui_print    "! The latest version of Riru is required"
     ui_print    "! Please install Riru (Riru - Core) from Magisk Manager or https://github.com/RikkaApps/Riru/releases"
-    ui_print    "! If you have just installed Riru, please reboot"
     abort_clean "*********************************************************"
   fi
 }

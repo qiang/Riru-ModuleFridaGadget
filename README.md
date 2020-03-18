@@ -4,9 +4,10 @@
 
 ## Build
 
-1. Replace module info in `module/build.gradle` (all lines end with `// FIXME replace with yours`)
-2. Write you codes
-3. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
+1. Rename `module.example.gradle` to `module.gradle`
+2. Replace module info in `module.gradle` (all lines end with `// FIXME replace with yours`)
+3. Write you codes
+4. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
 
 ## Notes
 

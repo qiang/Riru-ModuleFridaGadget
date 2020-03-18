@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
-
-def moduleId = "template" // FIXME replace with yours
-def riruApiVersion = 4
+apply from: file(rootProject.file('module.gradle'))
 
 android {
     compileSdkVersion rootProject.ext.targetSdkVersion
@@ -21,24 +19,6 @@ android {
         }
     }
 }
-
-def moduleProp = [
-        name       : "Template", // FIXME replace with yours
-        version    : "v1.0", // FIXME replace with yours
-        versionCode: "1", // FIXME replace with yours
-        author     : "Template", // FIXME replace with yours
-        description: "Riru module template.", // FIXME replace with yours
-        api        : riruApiVersion
-]
-
-def magiskModuleProp = [
-        id         : "riru-${moduleId.replace('_', '-')}",
-        name       : "Riru - ${moduleProp['name']}",
-        version    : moduleProp['version'],
-        versionCode: moduleProp['versionCode'],
-        author     : moduleProp['author'],
-        description: moduleProp['description']
-]
 
 def outDir = file("$rootDir/out")
 def magiskDir = file("$outDir/magisk_module")

@@ -9,9 +9,7 @@ EXPORT void nativeForkAndSpecializePre(
         JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jintArray *fdsToClose, jintArray *fdsToIgnore, jboolean *is_child_zygote,
-        jstring *instructionSet, jstring *appDataDir, jstring *packageName,
-        jobjectArray *packagesForUID, jstring *sandboxId) {
-    // packageName, packagesForUID, sandboxId are added from Android Q beta 2, removed from beta 5
+        jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList) {
 }
 
 EXPORT int nativeForkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
@@ -28,10 +26,8 @@ EXPORT __attribute__((visibility("default"))) void specializeAppProcessPre(
         JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jboolean *startChildZygote, jstring *instructionSet, jstring *appDataDir,
-        jstring *packageName, jobjectArray *packagesForUID, jstring *sandboxId) {
-    // this is added from Android Q beta, but seems Google disabled this in following updates
-
-    // packageName, packagesForUID, sandboxId are added from Android Q beta 2, removed from beta 5
+        jboolean *isTopApp, jobjectArray *pkgDataInfoList) {
+    // this is added from Android Q, but seems it's disabled by default
 }
 
 EXPORT __attribute__((visibility("default"))) int specializeAppProcessPost(

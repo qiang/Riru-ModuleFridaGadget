@@ -9,7 +9,8 @@ EXPORT void nativeForkAndSpecializePre(
         JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jintArray *fdsToClose, jintArray *fdsToIgnore, jboolean *is_child_zygote,
-        jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList) {
+        jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList,
+        jboolean *bindMountAppStorageDirs) {
 }
 
 EXPORT int nativeForkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
@@ -26,7 +27,7 @@ EXPORT __attribute__((visibility("default"))) void specializeAppProcessPre(
         JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jboolean *startChildZygote, jstring *instructionSet, jstring *appDataDir,
-        jboolean *isTopApp, jobjectArray *pkgDataInfoList) {
+        jboolean *isTopApp, jobjectArray *pkgDataInfoList, jboolean *bindMountAppStorageDirs) {
     // this is added from Android Q, but seems it's disabled by default
 }
 

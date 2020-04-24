@@ -1,6 +1,6 @@
 ext {
     moduleId = "template" // FIXME replace with yours
-    riruApiVersion = 5
+    riruApiVersion = 6
 
     moduleProp = [
             name       : "Template", // FIXME replace with yours

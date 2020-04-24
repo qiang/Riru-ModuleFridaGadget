@@ -1,6 +1,7 @@
 ext {
     moduleId = "template" // FIXME replace with yours
     riruApiVersion = 6
+    riruMinVersionName = "v21.0"
 
     moduleProp = [
             name       : "Template", // FIXME replace with yours

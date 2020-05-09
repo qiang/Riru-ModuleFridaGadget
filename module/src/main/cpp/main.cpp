@@ -10,7 +10,7 @@ EXPORT void nativeForkAndSpecializePre(
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jintArray *fdsToClose, jintArray *fdsToIgnore, jboolean *is_child_zygote,
         jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList,
-        jboolean *bindMountAppStorageDirs) {
+        jobjectArray *whitelistedDataInfoList, jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
 }
 
 EXPORT int nativeForkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
@@ -27,13 +27,14 @@ EXPORT __attribute__((visibility("default"))) void specializeAppProcessPre(
         JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jboolean *startChildZygote, jstring *instructionSet, jstring *appDataDir,
-        jboolean *isTopApp, jobjectArray *pkgDataInfoList, jboolean *bindMountAppStorageDirs) {
-    // this is added from Android Q, but seems it's disabled by default
+        jboolean *isTopApp, jobjectArray *pkgDataInfoList, jobjectArray *whitelistedDataInfoList,
+        jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
+    // added from Android 10, but disabled at least in Google Pixel devices
 }
 
 EXPORT __attribute__((visibility("default"))) int specializeAppProcessPost(
         JNIEnv *env, jclass clazz) {
-    // this is added from Android Q beta, but seems Google disabled this in following updates
+    // added from Android 10, but disabled at least in Google Pixel devices
     return 0;
 }
 

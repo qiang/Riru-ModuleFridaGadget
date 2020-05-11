@@ -7,7 +7,7 @@ if [ ! -f "$TMPDIR/verify.sh" ]; then
   ui_print    "*********************************************************"
   ui_print    "! Unable to extract verify.sh!"
   ui_print    "! This zip may be corrupted, please try downloading again"
-  abort_clean "*********************************************************"
+  abort "*********************************************************"
 fi
 . $TMPDIR/verify.sh
 
@@ -48,7 +48,7 @@ fi
 
 # Riru files
 ui_print "- Extracting extra files"
-[ -d "$RIRU_MODULE_PATH" ] || mkdir -p "$RIRU_MODULE_PATH" || abort_clean "! Can't create $RIRU_MODULE_PATH"
+[ -d "$RIRU_MODULE_PATH" ] || mkdir -p "$RIRU_MODULE_PATH" || abort "! Can't create $RIRU_MODULE_PATH"
 
 # set permission just in case
 set_perm "$RIRU_PATH" 0 0 0700

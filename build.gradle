@@ -12,7 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:4.0.2'
     }
 }
 
@@ -28,6 +28,6 @@ task clean(type: Delete) {
 }
 
 ext {
-    minSdkVersion = 23
-    targetSdkVersion = 29
+    minSdkVersion = 24
+    targetSdkVersion = 30
 }

@@ -20,6 +20,16 @@ android {
     }
 }
 
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url 'https://dl.bintray.com/rikkaw/Libraries' }
+}
+
+dependencies {
+    implementation 'rikka.ndk:riru:8'
+}
+
 def outDir = file("$rootDir/out")
 def magiskDir = file("$outDir/magisk_module")
 def zipName = "magisk-${magiskModuleProp['id'].replace('_', '-')}-${magiskModuleProp['version']}.zip"

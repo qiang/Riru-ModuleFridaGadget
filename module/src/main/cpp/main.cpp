@@ -109,6 +109,8 @@ void *init(void *arg) {
                     memset(module, 0, sizeof(RiruModuleInfoV9));
                     _module = module;
 
+                    module->supportHide = true;
+
                     module->version = RIRU_MODULE_VERSION;
                     module->versionName = RIRU_MODULE_VERSION_NAME;
                     module->onModuleLoaded = onModuleLoaded;

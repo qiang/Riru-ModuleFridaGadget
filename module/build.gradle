@@ -8,7 +8,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         externalNativeBuild {
             cmake {
-                arguments "-DMODULE_NAME:STRING=riru_$moduleId"
+                arguments "-DMODULE_NAME:STRING=riru_$moduleId", "-DRIRU_MODULE_API_VERSION=$riruMaxApiVersion"
             }
         }
     }

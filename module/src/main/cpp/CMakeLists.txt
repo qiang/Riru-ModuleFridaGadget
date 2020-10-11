@@ -5,7 +5,7 @@ if (NOT DEFINED MODULE_NAME)
 endif ()
 
 add_definitions(-DRIRU_MODULE)
-add_definitions(-DRIRU_MODULE_API_VERSION=8)
+add_definitions(-DRIRU_MODULE_API_VERSION=${RIRU_MODULE_API_VERSION})
 
 message("Build type: ${CMAKE_BUILD_TYPE}")
 

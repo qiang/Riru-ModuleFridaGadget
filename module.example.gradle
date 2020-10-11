@@ -1,6 +1,6 @@
 ext {
     moduleId = "template" // FIXME replace with yours
-    riruApiVersion = 8
+    riruMinApiVersion = 9
     riruMinVersionName = "v22.0"
 
     moduleProp = [
@@ -9,7 +9,7 @@ ext {
             versionCode: "1", // FIXME replace with yours
             author     : "Template", // FIXME replace with yours
             description: "Riru module template.", // FIXME replace with yours
-            api        : riruApiVersion
+            api        : riruMinApiVersion
     ]
 
     magiskModuleProp = [

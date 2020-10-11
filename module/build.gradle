@@ -8,7 +8,11 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         externalNativeBuild {
             cmake {
-                arguments "-DMODULE_NAME:STRING=riru_$moduleId", "-DRIRU_MODULE_API_VERSION=$riruMaxApiVersion"
+                arguments "-DMODULE_NAME:STRING=riru_$moduleId",
+                        "-DRIRU_MODULE_API_VERSION=$moduleMaxRiruApiVersion",
+                        "-DRIRU_MODULE_VERSION=$moduleVersionCode",
+                        "-DRIRU_MODULE_VERSION_NAME:STRING=\"$moduleVersion\""
+
             }
         }
     }
@@ -38,6 +42,9 @@ def magiskDir = file("$outDir/magisk_module")
 def zipName = "magisk-${magiskModuleProp['id'].replace('_', '-')}-${magiskModuleProp['version']}.zip"
 def riruDir = "$magiskDir/riru"
 
+
+import org.apache.tools.ant.filters.FixCrLfFilter
+
 import java.nio.file.Files
 import java.security.MessageDigest
 
@@ -54,8 +61,6 @@ static def renameOrFail(File from, File to) {
         throw new IOException("Unable reanme file $from to $to")
     }
 }
-
-import org.apache.tools.ant.filters.FixCrLfFilter
 
 android.libraryVariants.all { variant ->
     def task = variant.assembleProvider.get()
@@ -76,8 +81,8 @@ android.libraryVariants.all { variant ->
             include 'riru.sh'
             filter { line ->
                 line.replaceAll('%%%RIRU_MODULE_ID%%%', moduleId)
-                        .replaceAll('%%%RIRU_MIN_API_VERSION%%%', riruMinApiVersion.toString())
-                        .replaceAll('%%%RIRU_MIN_VERSION_NAME%%%', riruMinVersionName)
+                        .replaceAll('%%%RIRU_MIN_API_VERSION%%%', moduleMinRiruApiVersion.toString())
+                        .replaceAll('%%%RIRU_MIN_VERSION_NAME%%%', moduleMinRiruVersionName)
             }
             filter(FixCrLfFilter.class,
                     eol: FixCrLfFilter.CrLf.newInstance("lf"))

@@ -9,6 +9,11 @@
 3. Write you codes
 4. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
 
+## About Android Gradle plugin 4.1+ requirement
+
+The template use prefab feature for native dependencies. The prefab support is added from AGP 4.0 but only works correctly on higher versions.
+If you can't or don't willing to use APG 4.1, you can comment out prefab related parts in `build.gradle` and copy `riru.h` from [RikkaApps/Riru](https://github.com/RikkaApps/Riru/blob/master/module/src/main/cpp/include/riru.h).
+
 ## Notes
 
 * DO NOT overwrite `android.os.SystemProperties#native_set` in core, or your data may be wiped

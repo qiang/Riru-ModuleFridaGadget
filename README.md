@@ -36,3 +36,7 @@ For most modules, this should have not problem, but modules like Xposed framewor
 > Magisk may provider Riru-like features in the far future, and of course, it will have more strict restrictions that module codes will not be run in zygote. Maybe Xposed framework modules should prepare for this?
 
 Riru v22 also provides hide function to make the memory of the module to anonymous memory ([see the implementation](https://github.com/RikkaApps/Riru/blob/master/core/src/main/cpp/hide.cpp)). This is an opt-in behavior (`module->supportHide`) and Riru itself also has a global toggle (`/data/adb/riru/enable_hide`).
+
+#### Module installer
+
+`RIRU_PATH` has been changed to `/data/adb/riru` for hide purpose. If you have other files in `/data/misc/riru`, move them here. Note `/data/adb` have a different SELinux context, `u:object_r:adb_data_file:s0 `.

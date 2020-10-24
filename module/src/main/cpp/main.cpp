@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <riru.h>
 #include <malloc.h>
-#include <string.h>
+#include <cstring>
 
 static void forkAndSpecializePre(
         JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
@@ -123,14 +123,18 @@ void *init(void *arg) {
                     module->forkSystemServerPost = forkSystemServerPost;
                     return module;
                 }
+                default: {
+                    return nullptr;
+                }
             }
         }
         case 3: {
             free(_module);
             return nullptr;
         }
-        default:
+        default: {
             return nullptr;
+        }
     }
 }
 }

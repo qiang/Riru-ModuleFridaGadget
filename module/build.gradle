@@ -39,7 +39,7 @@ dependencies {
 
 def outDir = file("$rootDir/out")
 def magiskDir = file("$outDir/magisk_module")
-def zipName = "magisk-${magiskModuleProp['id'].replace('_', '-')}-${magiskModuleProp['version']}.zip"
+def zipName = "${magiskModuleProp['id'].replace('_', '-')}-${magiskModuleProp['version']}.zip"
 def riruDir = "$magiskDir/riru"
 
 

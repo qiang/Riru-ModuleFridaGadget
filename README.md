@@ -45,4 +45,6 @@ Riru v22 also provides hide function to make the memory of the module to anonymo
 
 #### Module installer
 
-`RIRU_PATH` has been changed to `/data/adb/riru` for hide purpose. If you have other files in `/data/misc/riru`, move them here. Note `/data/adb` have a different SELinux context, `u:object_r:adb_data_file:s0 `.
+`RIRU_PATH` has been changed to `/data/adb/riru` for hide purpose. If you have other files in `/data/misc/riru`, move them here (or anywhere else if you want).
+
+Note `/data/adb/riru` have the same SELinux like other Magisk files (set by Riru in post-fs-data), `u:object_r:magisk_file:s0`. DO NOT reset the context to something else.

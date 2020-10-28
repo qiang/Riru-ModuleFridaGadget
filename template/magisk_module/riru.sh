@@ -2,6 +2,7 @@
 RIRU_PATH="/data/adb/riru"
 RIRU_MODULE_ID="%%%RIRU_MODULE_ID%%%"
 RIRU_MODULE_PATH="$RIRU_PATH/modules/$RIRU_MODULE_ID"
+RIRU_SECONTEXT="u:object_r:magisk_file:s0"
 
 check_riru_version() {
   RIRU_MIN_API_VERSION=%%%RIRU_MIN_API_VERSION%%%

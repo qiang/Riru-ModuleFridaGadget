@@ -1,17 +1,22 @@
 ext {
-    moduleId = "template" // FIXME replace with yours
-    moduleVersion = "v1.0" // FIXME replace with yours
-    moduleVersionCode = 1  // FIXME replace with yours
+    // FIXME replace with yours
+    moduleId = "template"
+    moduleName = "Template"
+    moduleAuthor = "Template"
+    moduleDescription = "Riru module template."
+    moduleVersion = "v1.0"
+    moduleVersionCode = 1
+
     moduleMinRiruApiVersion = 9
     moduleMinRiruVersionName = "v22.0"
     moduleMaxRiruApiVersion = 9
 
     moduleProp = [
-            name       : "Template", // FIXME replace with yours
-            version    : version,
-            versionCode: "1",
-            author     : "Template", // FIXME replace with yours
-            description: "Riru module template.", // FIXME replace with yours
+            name       : moduleName,
+            version    : moduleVersion,
+            versionCode: moduleVersionCode.toString(),
+            author     : moduleAuthor,
+            description: moduleDescription,
             minApi     : moduleMinRiruApiVersion
     ]
 

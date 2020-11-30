@@ -11,13 +11,13 @@
 
 ## File structure
 
-A Riru module is a Magisk module ([Magisk module document](https://topjohnwu.github.io/Magisk/guides.html#magisk-modules)).
+A Riru module is a Magisk module, please read [Magisk module document](https://topjohnwu.github.io/Magisk/guides.html#magisk-modules) first.
 
 In addition, currently the only necessary file (folder) is `/data/adb/riru/modules/<name>`. Riru will check if it exists and load `/system/lib(64)/libriru_<name>.so`.
 
 ## API changes
 
-### v10, Riru v23
+### API v10 (from Riru v23)
 
 #### API
 
@@ -31,7 +31,7 @@ In addition, currently the only necessary file (folder) is `/data/adb/riru/modul
   To workaround this "problem", "rirud" is introduced. It will be started by `post-fs-data.sh` and run a socket runs under `u:r:zygote:s0` context. All file operations can be done through this socket.
 </details>
 
-Add "read file" function for "rirud". Modules can use this to read files that zygote itself has not permission to access.
+Add "read file" function for "rirud". Modules can use this to read files that zygote itself has not permission to access. Note, for hide purpose, "rirud" socket is only available before system_server is started.
 
 In order to give the module enough freedom (like how to allocate memory), there is no "API". The module needs to implement socket codes by itself.
 
@@ -63,7 +63,7 @@ if (bytes_count > 0) {
 
 </details>
 
-### v9, Riru v22
+### API v9 (from Riru v22)
 
 #### API
 

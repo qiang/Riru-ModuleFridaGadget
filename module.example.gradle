@@ -9,7 +9,7 @@ ext {
 
     moduleMinRiruApiVersion = 9
     moduleMinRiruVersionName = "v22.0"
-    moduleMaxRiruApiVersion = 9
+    moduleMaxRiruApiVersion = 10
 
     moduleProp = [
             name       : moduleName,

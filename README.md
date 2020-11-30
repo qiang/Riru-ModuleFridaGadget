@@ -22,7 +22,53 @@ In addition, currently the only necessary file (folder) is `/data/adb/riru/modul
 
 ## API changes
 
-### v9, Riru v22.0
+### v10, Riru v23
+
+#### API
+
+<details>
+  <summary>Background of rirud</summary>
+  
+  Riru v22.0 move config files to `/data/adb`, this makes patch SELinux rules a must. However Magisk's `sepolicy.rule` actually not work for maybe lots of devices. As the release of Riru v22.0, these people "suddenly" appears.
+
+  `sepolicy.rule` support was added from Magisk v20.2, a long time ago, no one report to Magisk 😒.
+
+  To workaround this "problem", "rirud" is introduced. It will be started by `post-fs-data.sh` and run a socket runs under `u:r:zygote:s0` context. All file operations can be done through this socket.
+</details>
+
+Add "read file" function for "rirud". Modules can use this to read files that zygote itself has not permission to access.
+
+In order to give the module enough freedom (like how to allocate memory), there is no "API". The module needs to implement socket codes by itself.
+
+<details>
+
+  <summary>Pseudocode</summary>
+
+```
+socket(PF_UNIX, SOCK_STREAM)
+setup_sockaddr("rirud")
+
+write(ACTION_READ_FILE /* 4 */, sizeof(uint32))
+write(path_size, sizeof(uint32))
+write(path, path_size)
+
+errno = read(sizeof(int32_t)) // errno of "open" in "rirud"
+if (errno != 0) return
+
+bytes_count = read(sizeof(int32_t))
+
+if (bytes_count > 0) {
+  // file has size
+  // read total "bytes_count" bytes
+} else if (bytes_count == 0) {
+  // file has no size, read until 0
+  // read until 0
+}
+```
+
+</details>
+
+### v9, Riru v22
 
 #### API
 

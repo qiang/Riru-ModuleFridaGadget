@@ -102,6 +102,8 @@ void *init(void *arg) {
         }
         case 2: {
             switch (riru_api_version) {
+                // RiruApiV10 and RiruModuleInfoV10 are equal to V9
+                case 10:
                 case 9: {
                     riru_api_v9 = (RiruApiV9 *) arg;
 

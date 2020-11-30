@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'rikka.ndk:riru:9.1'
+    implementation 'rikka.ndk:riru:10'
 }
 
 def outDir = file("$rootDir/out")

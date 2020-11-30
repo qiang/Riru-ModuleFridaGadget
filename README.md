@@ -9,11 +9,6 @@
 3. Write your codes
 4. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
 
-### About prefab
-
-The template use the prefab feature for native dependencies. The prefab support is added from AGP 4.0 but only works correctly on higher versions.
-If you can't or don't willing to use APG 4.1, you can comment out prefab-related parts in `build.gradle` and copy `riru.h` from [RikkaApps/Riru](https://github.com/RikkaApps/Riru/blob/master/module/src/main/cpp/include/riru.h).
-
 ## File structure
 
 A Riru module is a Magisk module ([Magisk module document](https://topjohnwu.github.io/Magisk/guides.html#magisk-modules)).

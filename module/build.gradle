@@ -34,6 +34,9 @@ repositories {
 }
 
 dependencies {
+    // This is prefab aar which contains "riru.h"
+    // If you want to use older versions of AGP,
+    // you can copy this file from https://github.com/RikkaApps/Riru/blob/master/riru/src/main/cpp/include_riru/riru.h
     implementation 'rikka.ndk:riru:10'
 }
 

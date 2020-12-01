@@ -91,6 +91,8 @@ while (true) {
 
 </details>
 
+Example implementation: <https://github.com/RikkaApps/Riru-LocationReportEnabler/commit/89b2e396efcd928121ba3d254b96af1560cfaf4d?
+
 ### API v9 (from Riru v22)
 
 #### API

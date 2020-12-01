@@ -30,7 +30,7 @@ In addition, currently the only necessary file (folder) is `/data/adb/riru/modul
 </details>
 
 
-Add "read file" function for "rirud". Modules can use this to read files that zygote itself has not permission to access. Note, for hide purpose, "rirud" socket is only available before system_server is started.
+From Riru v23, "read file" and "read dir" function are added for "rirud". Modules can use this to read files that zygote itself has not permission to access. Note, for hide purpose, "rirud" socket is only available before system_server is started.
 
 In order to give the module enough freedom (like how to allocate memory), there is no "API". The module needs to implement socket codes by itself.
 

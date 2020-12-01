@@ -20,7 +20,7 @@ In addition, currently the only necessary file (folder) is `/data/adb/riru/modul
 ### API v10 (from Riru v23)
 
 <details>
-  <summary>Background of rirud</summary>
+  <summary><b>Background of rirud:</b></summary>
 
   Riru v22.0 move config files to `/data/adb`, this makes patch SELinux rules a must. However Magisk's `sepolicy.rule` actually not work for maybe lots of devices. As the release of Riru v22.0, these people "suddenly" appears.
 
@@ -36,7 +36,7 @@ In order to give the module enough freedom (like how to allocate memory), there 
 
 <details>
 
-  <summary>**Pseudocode of read file**</summary>
+  <summary><b>Pseudocode of read file:</b></summary>
 
 ```
 socket(PF_UNIX, SOCK_STREAM)
@@ -64,7 +64,7 @@ if (bytes_count > 0) {
 
 <details>
 
-  <summary>**Pseudocode read dir**</summary>
+  <summary><b>Pseudocode of read dir:</b></summary>
 
 ```
 socket(PF_UNIX, SOCK_STREAM)
@@ -91,7 +91,7 @@ while (true) {
 
 </details>
 
-Example implementation: <https://github.com/RikkaApps/Riru-LocationReportEnabler/commit/89b2e396efcd928121ba3d254b96af1560cfaf4d?
+Example implementation: <https://github.com/RikkaApps/Riru-LocationReportEnabler/commit/89b2e396efcd928121ba3d254b96af1560cfaf4d>
 
 ### API v9 (from Riru v22)
 

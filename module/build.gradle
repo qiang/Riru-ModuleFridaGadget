@@ -37,6 +37,11 @@ dependencies {
     // This is prefab aar which contains "riru.h"
     // If you want to use older versions of AGP,
     // you can copy this file from https://github.com/RikkaApps/Riru/blob/master/riru/src/main/cpp/include_riru/riru.h
+
+    // The default version of prefab in AGP has problem to process header only package,
+    // you may have to add android.prefabVersion=1.1.2 in your gradle.properties.
+    // See https://github.com/google/prefab/issues/122
+
     implementation 'rikka.ndk:riru:10'
 }
 

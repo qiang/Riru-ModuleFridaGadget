@@ -1,5 +1,12 @@
 SKIPUNZIP=1
 
+# check_architecture
+if [ "$ARCH" != "arm" ] && [ "$ARCH" != "arm64" ] && [ "$ARCH" != "x86" ] && [ "$ARCH" != "x64" ]; then
+  abort "! Unsupported platform: $ARCH"
+else
+  ui_print "- Device platform: $ARCH"
+fi
+
 # extract verify.sh
 ui_print "- Extracting verify.sh"
 unzip -o "$ZIPFILE" 'verify.sh' -d "$TMPDIR" >&2
@@ -16,7 +23,6 @@ extract "$ZIPFILE" 'riru.sh' "$MODPATH"
 . $MODPATH/riru.sh
 
 check_riru_version
-check_architecture
 
 # extract libs
 ui_print "- Extracting module files"

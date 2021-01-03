@@ -35,7 +35,7 @@ extract "$ZIPFILE" 'uninstall.sh' "$MODPATH"
 if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
   ui_print "- Extracting x86 libraries"
   extract "$ZIPFILE" "system_x86/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
-  mv "$MODPATH/system_x86/lib" "$MODPATH/system/lib"
+  mv "$MODPATH/system_x86" "$MODPATH/system"
 
   if [ "$IS64BIT" = true ]; then
     ui_print "- Extracting x64 libraries"

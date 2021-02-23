@@ -51,8 +51,10 @@ static void forkSystemServerPost(JNIEnv *env, jclass clazz, jint res) {
 }
 
 static int shouldSkipUid(int uid) {
-    // by default, Riru only call module functions in "normal app processes" (10000 <= uid % 100000 <= 19999)
-    // false = don't skip
+    // By default (the module does not provide this function in init), Riru will only call
+    // module functions in "normal app processes" (10000 <= uid % 100000 <= 19999)
+
+    // Provide this function so that the module can control if a specific uid should be skipped
     return false;
 }
 

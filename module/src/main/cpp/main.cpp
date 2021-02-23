@@ -81,7 +81,7 @@ RiruApiV9 *riru_api_v9;
  *   arg: (RiruApiVX *) RiruApi strcut, this pointer can be saved for further use
  *   returns: (RiruModuleX *) RiruModule strcut
  *
- * The second time:
+ * The third time:
  *   Let the module to cleanup (such as RiruModuleX struct created before).
  *
  *   arg: null

@@ -5,7 +5,7 @@
 #include <cstring>
 
 static void forkAndSpecializePre(
-        JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
+        JNIEnv *env, jclass clazz, jint *uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jintArray *fdsToClose, jintArray *fdsToIgnore, jboolean *is_child_zygote,
         jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList,
@@ -22,7 +22,7 @@ static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
 }
 
 static void specializeAppProcessPre(
-        JNIEnv *env, jclass clazz, jint *_uid, jint *gid, jintArray *gids, jint *runtimeFlags,
+        JNIEnv *env, jclass clazz, jint *uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jboolean *startChildZygote, jstring *instructionSet, jstring *appDataDir,
         jboolean *isTopApp, jobjectArray *pkgDataInfoList, jobjectArray *whitelistedDataInfoList,

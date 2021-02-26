@@ -44,12 +44,21 @@ if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
   fi
 else
   ui_print "- Extracting arm libraries"
-  extract "$ZIPFILE" "system/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib/libgadget.config.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib/libgadget.so" "$MODPATH"
 
-  if [ "$IS64BIT" = true ]; then
-    ui_print "- Extracting arm64 libraries"
-    extract "$ZIPFILE" "system/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
-  fi
+  REPLACEMENT_DIR="system/*"
+#  [[ $IS_X86 == "true" ]] && REPLACEMENT_DIR="system_x86/*"
+  # 一劳永逸。完全提取
+  unzip -o $ZIPFILE $REPLACEMENT_DIR -d $MODPATH >&2 || abort "! Can't extract system/: $?"
+
+#  if [ "$IS64BIT" = true ]; then
+#    ui_print "- Extracting arm64 libraries"
+#    extract "$ZIPFILE" "system/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
+#    extract "$ZIPFILE" "system/lib64/libgadget.config.so" "$MODPATH"
+#    extract "$ZIPFILE" "system/lib64/libgadget.so" "$MODPATH"
+#  fi
 fi
 
 set_perm_recursive "$MODPATH" 0 0 0755 0644

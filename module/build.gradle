@@ -64,9 +64,11 @@ static def calcSha256(file) {
     return md.digest().encodeHex()
 }
 
-static def renameOrFail(File from, File to) {
-    if (!from.renameTo(to)) {
-        throw new IOException("Unable reanme file $from to $to")
+
+
+static def renameOrFail(File fromFile, File toFile) {
+    if (!fromFile.renameTo(toFile)) {
+        throw new IOException("Unable reanme file $fromFile to $toFile")
     }
 }
 
@@ -119,8 +121,27 @@ android.libraryVariants.all { variant ->
 
         file("$magiskDir/system").mkdirs()
         file("$magiskDir/system_x86").mkdirs()
-        renameOrFail(file("$nativeOutDir/arm64-v8a"), file("$magiskDir/system/lib64"))
-        renameOrFail(file("$nativeOutDir/armeabi-v7a"), file("$magiskDir/system/lib"))
+
+        if (file("$magiskDir/system/lib64").exists()){
+            copy {
+                from "$nativeOutDir/arm64-v8a"
+                into "$magiskDir/system/lib64"
+                include '*.so'
+                include '*.sha256sum'
+            }
+        }else{
+            renameOrFail(file("$nativeOutDir/arm64-v8a"), file("$magiskDir/system/lib64"))
+        }
+        if (file("$magiskDir/system/lib").exists()){
+            copy {
+                from "$nativeOutDir/armeabi-v7a"
+                into "$magiskDir/system/lib"
+                include '*.so'
+            }
+        }else{
+            renameOrFail(file("$nativeOutDir/armeabi-v7a"),file("$magiskDir/system/lib") )
+        }
+
         renameOrFail(file("$nativeOutDir/x86_64"), file("$magiskDir/system_x86/lib64"))
         renameOrFail(file("$nativeOutDir/x86"), file("$magiskDir/system_x86/lib"))
 

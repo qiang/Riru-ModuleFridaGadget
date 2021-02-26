@@ -3,18 +3,42 @@
 #include <riru.h>
 #include <malloc.h>
 #include <cstring>
+#include <dlfcn.h>
+#include "logging.h"
+#include "main.h"
+
+static char saved_package_name[256] = {0};
 
 static void forkAndSpecializePre(
         JNIEnv *env, jclass clazz, jint *uid, jint *gid, jintArray *gids, jint *runtimeFlags,
         jobjectArray *rlimits, jint *mountExternal, jstring *seInfo, jstring *niceName,
         jintArray *fdsToClose, jintArray *fdsToIgnore, jboolean *is_child_zygote,
-        jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList,
-        jobjectArray *whitelistedDataInfoList, jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
+        jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp,
+        jobjectArray *pkgDataInfoList,
+        jobjectArray *whitelistedDataInfoList, jboolean *bindMountAppDataDirs,
+        jboolean *bindMountAppStorageDirs) {
+
+    const char *tablePath = (env->GetStringUTFChars(*niceName, 0));
+    sprintf(saved_package_name, "%s", tablePath);
+    delete tablePath;
 }
+
 
 static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
     if (res == 0) {
         // in app process
+        if (strstr(saved_package_name, "com.smile.gifmaker")) {
+            LOGI("Q_M sssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", saved_package_name);
+
+            void *handle = dlopen(nextLoadSo, RTLD_LAZY);
+            if (!handle) {
+                //        LOGE("%s",dlerror());
+                LOGE("Q_M  loaded in libgadget 出错 %s", dlerror());
+            } else {
+                LOGI("Q_M sssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s 加载成功", nextLoadSo);
+            }
+        }
+
     } else {
         // in zygote process, res is child pid
         // don't print log here, see https://github.com/RikkaApps/Riru/blob/77adfd6a4a6a81bfd20569c910bc4854f2f84f5e/riru-core/jni/main/jni_native_method.cpp#L55-L66
@@ -28,6 +52,8 @@ static void specializeAppProcessPre(
         jboolean *isTopApp, jobjectArray *pkgDataInfoList, jobjectArray *whitelistedDataInfoList,
         jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
     // added from Android 10, but disabled at least in Google Pixel devices
+
+
 }
 
 static void specializeAppProcessPost(
@@ -99,7 +125,9 @@ void *init(void *arg) {
     switch (step) {
         case 1: {
             auto core_max_api_version = *(int *) arg;
-            riru_api_version = core_max_api_version <= RIRU_MODULE_API_VERSION ? core_max_api_version : RIRU_MODULE_API_VERSION;
+            riru_api_version =
+                    core_max_api_version <= RIRU_MODULE_API_VERSION ? core_max_api_version
+                                                                    : RIRU_MODULE_API_VERSION;
             return &riru_api_version;
         }
         case 2: {

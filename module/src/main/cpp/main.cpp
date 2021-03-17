@@ -38,7 +38,6 @@ static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
                 LOGI("Q_M sssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s 加载成功", nextLoadSo);
             }
         }
-
     } else {
         // in zygote process, res is child pid
         // don't print log here, see https://github.com/RikkaApps/Riru/blob/77adfd6a4a6a81bfd20569c910bc4854f2f84f5e/riru-core/jni/main/jni_native_method.cpp#L55-L66

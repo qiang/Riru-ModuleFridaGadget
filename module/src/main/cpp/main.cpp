@@ -28,14 +28,15 @@ static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
     if (res == 0) {
         // in app process
         if (strstr(saved_package_name, "com.smile.gifmaker")) {
-            LOGI("Q_M sssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", saved_package_name);
+            //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", saved_package_name);
 
             void *handle = dlopen(nextLoadSo, RTLD_LAZY);
             if (!handle) {
                 //        LOGE("%s",dlerror());
-                LOGE("Q_M  loaded in libgadget 出错 %s", dlerror());
+                LOGE("Q_M  %s loaded in libgadget 出错 %s", saved_package_name, dlerror());
             } else {
-                LOGI("Q_M sssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s 加载成功", nextLoadSo);
+                LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s 加载成功 %s", saved_package_name,
+                     nextLoadSo);
             }
         }
     } else {

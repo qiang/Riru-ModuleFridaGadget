@@ -4,7 +4,7 @@ ext {
     moduleName = "Template"
     moduleAuthor = "Template"
     moduleDescription = "Riru module template."
-    moduleVersion = "v1.0"
+    moduleVersion = "v1.1"
     moduleVersionCode = 1
 
     moduleMinRiruApiVersion = 9

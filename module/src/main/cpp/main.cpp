@@ -34,7 +34,7 @@ static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
 //            || strstr(saved_package_name, "com.ss.android.ugc.aweme")
 //            || strstr(saved_package_name, "com.xingin.xhs")
             ) {
-            //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", saved_package_name);
+            LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", saved_package_name);
 
             void *handle = dlopen(nextLoadSo, RTLD_LAZY);
             if (!handle) {

@@ -157,7 +157,7 @@ RiruApiV9 *riru_api_v9;
 void *init(void *arg) {
     static int step = 0;
     step += 1;
-    LOGI("Q_M Riru-ModuleFridaGadget xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "init");
+    //LOGI("Q_M Riru-ModuleFridaGadget xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "init");
 
     static void *_module;
 

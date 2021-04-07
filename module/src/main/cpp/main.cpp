@@ -30,7 +30,7 @@ static void my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName) {
 }
 
 static void my_forkAndSpecializePost(JNIEnv *env) {
-    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s,   uid==%d", saved_package_name, my_uid);
+    //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s,   uid==%d", saved_package_name, my_uid);
 
     //添加这种机制，就可以提前设置进程名， 从而让frida 的gadget 能够识别到
     jclass java_Process = env->FindClass("android/os/Process");

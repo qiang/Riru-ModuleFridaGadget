@@ -22,7 +22,7 @@ static bool isApp(int uid) {
 }
 
 static void my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName) {
-    //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "forkAndSpecializePre");
+    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "forkAndSpecializePre");
     my_uid = *uid;
     const char *tablePath = (env->GetStringUTFChars(*niceName, 0));
     sprintf(saved_package_name, "%s", tablePath);
@@ -30,7 +30,7 @@ static void my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName) {
 }
 
 static void my_forkAndSpecializePost(JNIEnv *env) {
-    //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s,   uid==%d", saved_package_name, my_uid);
+    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s,   uid==%d", saved_package_name, my_uid);
 
     //添加这种机制，就可以提前设置进程名， 从而让frida 的gadget 能够识别到
     jclass java_Process = env->FindClass("android/os/Process");
@@ -151,7 +151,7 @@ RiruApiV9 *riru_api_v9;
 void *init(void *arg) {
     static int step = 0;
     step += 1;
-    //LOGI("Q_M Riru-ModuleFridaGadget xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "init");
+    LOGI("Q_M Riru-ModuleFridaGadget xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "init");
 
     static void *_module;
 

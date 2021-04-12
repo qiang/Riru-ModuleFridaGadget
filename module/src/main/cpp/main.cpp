@@ -2,6 +2,8 @@
 #include <sys/types.h>
 #include <riru.h>
 #include <malloc.h>
+#include <vector>
+
 #include <cstring>
 #include <dlfcn.h>
 #include "logging.h"
@@ -22,7 +24,7 @@ static bool isApp(int uid) {
 }
 
 static void my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName) {
-    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "forkAndSpecializePre");
+    //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "forkAndSpecializePre");
     my_uid = *uid;
     const char *tablePath = (env->GetStringUTFChars(*niceName, 0));
     sprintf(saved_package_name, "%s", tablePath);
@@ -30,6 +32,14 @@ static void my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName) {
 }
 
 static void my_forkAndSpecializePost(JNIEnv *env) {
+    if (!strstr(saved_package_name, "com.smile.gifmaker")
+        && !strstr(saved_package_name, "com.ss.android.ugc.aweme")
+        && !strstr(saved_package_name, "com.xingin.xhs")
+            ) {
+        return;
+    }
+
+
     LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s,   uid==%d", saved_package_name, my_uid);
 
     //添加这种机制，就可以提前设置进程名， 从而让frida 的gadget 能够识别到

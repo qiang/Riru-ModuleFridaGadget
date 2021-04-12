@@ -9,7 +9,9 @@
 #include "logging.h"
 #include "main.h"
 
-static char saved_package_name[256] = {0};
+static char nice_process_name[256] = {0};
+static char package_name[256] = {0};
+
 static jint my_uid = 0;
 
 static bool isApp(int uid) {
@@ -23,39 +25,85 @@ static bool isApp(int uid) {
     return appId >= 10000 && appId <= 19999;
 }
 
-static void my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName) {
+static void
+my_forkAndSpecializePre(JNIEnv *env, jint *uid, jstring *niceName, jstring *appDataDir) {
     //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s", "forkAndSpecializePre");
     my_uid = *uid;
-    const char *tablePath = (env->GetStringUTFChars(*niceName, 0));
-    sprintf(saved_package_name, "%s", tablePath);
-    delete tablePath;
-}
-
-static void my_forkAndSpecializePost(JNIEnv *env) {
-    if (!strstr(saved_package_name, "com.smile.gifmaker")
-        && !strstr(saved_package_name, "com.ss.android.ugc.aweme")
-        && !strstr(saved_package_name, "com.xingin.xhs")
-            ) {
+    if (!isApp(my_uid)) {
         return;
     }
 
+    const char *tablePath = (env->GetStringUTFChars(*niceName, 0));
+    sprintf(nice_process_name, "%s", tablePath);
+    delete tablePath;
 
-    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s,   uid==%d", saved_package_name, my_uid);
+    if (!appDataDir) {
+        LOGI("Q_M forkAndSpecializePre appDataDir null");
+        return;
+    }
+
+    const char *app_data_dir = env->GetStringUTFChars(*appDataDir, NULL);
+    if (app_data_dir == nullptr) {
+        return;
+    }
+    //LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx app_data_dir %s",app_data_dir);
+
+    int user = 0;
+    if (sscanf(app_data_dir, "/data/%*[^/]/%d/%s", &user, package_name) != 2) {
+        if (sscanf(app_data_dir, "/data/%*[^/]/%s", package_name) != 1) {
+            package_name[0] = '\0';
+            LOGI("Q_M can't parse %s", app_data_dir);
+        }
+    }
+    env->ReleaseStringUTFChars(*appDataDir, app_data_dir);
+
+}
+
+static void my_forkAndSpecializePost(JNIEnv *env) {
+    if (!isApp(my_uid)) {
+        return;
+    }
+
+//    if (!strstr(nice_process_name, "com.smile.gifmaker")
+//        && !strstr(nice_process_name, "com.ss.android.ugc.aweme")
+//        && !strstr(nice_process_name, "com.xingin.xhs")
+//            ) {
+//        return;
+//    }
+
+    char white_list[2048] = {0};
+    const char *filepath = "/data/local/tmp/white_list.conf";
+    FILE *fp = nullptr;
+    fp = fopen(filepath, "r");
+    if (fp != nullptr) {
+        fgets(white_list, 2048, (FILE *) fp);
+        LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 白名单：%s", white_list);
+    }else{
+        strcpy(white_list, "com.smile.gifmaker");
+    }
+
+    if (!strstr(white_list, package_name)) {
+        return;
+    }
+
+    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx nice_process_name=%s, pkg=%s,uid==%d, isApp %d",
+         nice_process_name, package_name, my_uid,
+         isApp(my_uid));
 
     //添加这种机制，就可以提前设置进程名， 从而让frida 的gadget 能够识别到
     jclass java_Process = env->FindClass("android/os/Process");
     if (java_Process != nullptr && isApp(my_uid)) {
         jmethodID mtd_setArgV0 = env->GetStaticMethodID(java_Process, "setArgV0",
                                                         "(Ljava/lang/String;)V");
-        jstring name = env->NewStringUTF(saved_package_name);
+        jstring name = env->NewStringUTF(nice_process_name);
         env->CallStaticVoidMethod(java_Process, mtd_setArgV0, name);
 
         void *handle = dlopen(nextLoadSo, RTLD_LAZY);
         if (!handle) {
             //        LOGE("%s",dlerror());
-            LOGE("Q_M  %s loaded in libgadget 出错 %s", saved_package_name, dlerror());
+            LOGE("Q_M  %s loaded in libgadget 出错 %s", nice_process_name, dlerror());
         } else {
-            LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-> %s 加载 ' %s ' 成功 ", saved_package_name,
+            LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-> %s 加载 ' %s ' 成功 ", nice_process_name,
                  nextLoadSo);
         }
     }
@@ -70,7 +118,7 @@ static void forkAndSpecializePre(
         jobjectArray *pkgDataInfoList,
         jobjectArray *whitelistedDataInfoList, jboolean *bindMountAppDataDirs,
         jboolean *bindMountAppStorageDirs) {
-    my_forkAndSpecializePre(env, uid, niceName);
+    my_forkAndSpecializePre(env, uid, niceName, appDataDir);
 }
 
 //很遗憾，执行这行代码的时候，还没有设置进程名字，导致，这个方法里面加载 frida gadget 的动态库获取不到进程名
@@ -94,7 +142,7 @@ static void specializeAppProcessPre(
         jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
     // added from Android 10, but disabled at least in Google Pixel devices
 
-    my_forkAndSpecializePre(env, uid, niceName);
+    my_forkAndSpecializePre(env, uid, niceName, appDataDir);
 }
 
 static void specializeAppProcessPost(

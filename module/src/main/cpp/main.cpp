@@ -71,15 +71,22 @@ static void my_forkAndSpecializePost(JNIEnv *env) {
 //        return;
 //    }
 
-    char white_list[2048] = {0};
+    char *white_list ;
     const char *filepath = "/data/local/tmp/white_list.conf";
     FILE *fp = nullptr;
     fp = fopen(filepath, "r");
     if (fp != nullptr) {
-        fgets(white_list, 2048, (FILE *) fp);
+
+        fseek(fp, 0, SEEK_END);
+        int fileLen = ftell(fp);
+        white_list = (char *) malloc(sizeof(char) * fileLen);
+        fseek(fp, 0, SEEK_SET);
+        fread(white_list, fileLen, sizeof(char), fp);
+        fclose(fp);
+
         LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 白名单：%s", white_list);
     }else{
-        strcpy(white_list, "com.smile.gifmaker");
+        white_list= "";
     }
 
     if (!strstr(white_list, package_name)) {

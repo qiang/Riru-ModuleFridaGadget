@@ -71,7 +71,8 @@ static void my_forkAndSpecializePost(JNIEnv *env) {
 //        return;
 //    }
 
-    char *white_list ;
+    char *white_list;
+    //白名单的pkgName 最好以逗号或者分好分割开来
     const char *filepath = "/data/local/tmp/white_list.conf";
     FILE *fp = nullptr;
     fp = fopen(filepath, "r");
@@ -79,14 +80,17 @@ static void my_forkAndSpecializePost(JNIEnv *env) {
 
         fseek(fp, 0, SEEK_END);
         int fileLen = ftell(fp);
-        white_list = (char *) malloc(sizeof(char) * fileLen);
+        white_list = (char *) malloc(sizeof(char) * (fileLen + 1));
         fseek(fp, 0, SEEK_SET);
-        fread(white_list, fileLen, sizeof(char), fp);
+//        size_t count = fread(white_list, fileLen, sizeof(char), fp);
+        size_t count = fread(white_list, 1, fileLen, fp);
+//        LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 白名单长度 %zu", count);
+        white_list[count] = '\0';
         fclose(fp);
 
         LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 白名单：%s", white_list);
-    }else{
-        white_list= "";
+    } else {
+        white_list = "";
     }
 
     if (!strstr(white_list, package_name)) {

@@ -71,9 +71,10 @@ static void my_forkAndSpecializePost(JNIEnv *env) {
 //        return;
 //    }
 
+    //http://www.cplusplus.com/reference/cstdio/fread/ 读取整个文件
     char *white_list;
     //白名单的pkgName 最好以逗号或者分好分割开来
-    const char *filepath = "/data/local/tmp/white_list.conf";
+    const char *filepath = "/data/local/tmp/_white_list.config";
     FILE *fp = nullptr;
     fp = fopen(filepath, "r");
     if (fp != nullptr) {

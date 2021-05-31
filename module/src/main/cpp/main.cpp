@@ -98,7 +98,7 @@ static void my_forkAndSpecializePost(JNIEnv *env) {
         return;
     }
 
-    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx nice_process_name=%s, pkg=%s,uid==%d, isApp %d",
+    LOGI("Q_M xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx nice_process_name=%s, pkg=%s,uid=%d, isApp= %d",
          nice_process_name, package_name, my_uid,
          isApp(my_uid));
 

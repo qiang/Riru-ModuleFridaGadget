@@ -30,7 +30,7 @@ ui_print "- Extracting module files"
 extract "$ZIPFILE" 'module.prop' "$MODPATH"
 extract "$ZIPFILE" 'post-fs-data.sh' "$MODPATH"
 extract "$ZIPFILE" 'uninstall.sh' "$MODPATH"
-#extract "$ZIPFILE" 'sepolicy.rule' "$MODPATH"
+
 
 if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
   ui_print "- Extracting x86 libraries"
@@ -44,21 +44,20 @@ if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
   fi
 else
   ui_print "- Extracting arm libraries"
-#  extract "$ZIPFILE" "system/lib/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
-#  extract "$ZIPFILE" "system/lib/libgadget.config.so" "$MODPATH"
-#  extract "$ZIPFILE" "system/lib/libgadget.so" "$MODPATH"
 
   REPLACEMENT_DIR="system/*"
-#  [[ $IS_X86 == "true" ]] && REPLACEMENT_DIR="system_x86/*"
-  # 一劳永逸。完全提取
-  unzip -o $ZIPFILE $REPLACEMENT_DIR -d $MODPATH >&2 || abort "! Can't extract system/: $?"
+  # 一劳永逸。完全提取。在某些一加手机上这个方法不能提取 system/lib/ 里面的数据，为啥？是unzip这个命令工具的问题。
+  # 注意加上引号
+  unzip -o "$ZIPFILE" "$REPLACEMENT_DIR" -d "$MODPATH" >&2 || abort "! Can't extract system/: $?"
 
-#  if [ "$IS64BIT" = true ]; then
-#    ui_print "- Extracting arm64 libraries"
-#    extract "$ZIPFILE" "system/lib64/libriru_$RIRU_MODULE_ID.so" "$MODPATH"
-#    extract "$ZIPFILE" "system/lib64/libgadget.config.so" "$MODPATH"
-#    extract "$ZIPFILE" "system/lib64/libgadget.so" "$MODPATH"
-#  fi
+#  extract "$ZIPFILE" "system/lib/libgadget.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib/libgadget.config.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib/libriru_FridaGadgetRiruMoudle.so" "$MODPATH"
+#
+#  extract "$ZIPFILE" "system/lib64/libgadget.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib64/libgadget.config.so" "$MODPATH"
+#  extract "$ZIPFILE" "system/lib64/libriru_FridaGadgetRiruMoudle.so" "$MODPATH"
+
 fi
 
 set_perm_recursive "$MODPATH" 0 0 0755 0644

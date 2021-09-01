@@ -1,0 +1,30 @@
+ext {
+    moduleId = "FridaGadgetRiruMoudle"
+    moduleName = "Frida-Gadget-Riru-Module"
+    moduleAuthor = "BayBayMax"
+    moduleDescription = "一个加载 FridaGadget 动态库的magisk 插件，依赖riru 框架"
+    moduleVersion = "v14.2.12.8"
+    moduleVersionCode = 14_2_12_8
+
+    moduleMinRiruApiVersion = 9
+    moduleMinRiruVersionName = "v22.0"
+    moduleRiruApiVersion = 10
+
+    moduleProp = [
+            name       : moduleName,
+            version    : moduleVersion,
+            versionCode: moduleVersionCode.toString(),
+            author     : moduleAuthor,
+            description: moduleDescription,
+            minApi     : moduleMinRiruApiVersion
+    ]
+
+    magiskModuleProp = [
+            id         : "riru-${moduleId.replace('_', '-')}",
+            name       : "Riru - ${moduleProp['name']}",
+            version    : moduleProp['version'],
+            versionCode: moduleProp['versionCode'],
+            author     : moduleProp['author'],
+            description: moduleProp['description']
+    ]
+}

@@ -1,121 +1,60 @@
-# Riru - Template
+#### 说明
 
-[Riru](https://github.com/RikkaApps/Riru) module template.
+firda gadget 模式支持如下四种模式：
 
-## Build
+   - Listen
+   - Connect
+   - Script
+   - ScriptDirectory
+   
+我没有全部测试，根据使用目的不同，我现在只需要最后一种，主要用于大规模手机部署hook功能，为了把 libgadget.so 注入到进程，所以选择了 magisk + riru 的模式，通过自定义riru模块在riru的回调里面加载 libgadget.so 
 
-1. Rename `module.example.gradle` to `module.gradle`
-2. Replace module info in `module.gradle` (all lines end with "replace with yours")
-3. Write your codes
-4. Run gradle task `:module:assembleRelease` task from Android Studio or command line, zip will be saved in `out`.
-
-## File structure
-
-A Riru module is a Magisk module, please read [Magisk module document](https://topjohnwu.github.io/Magisk/guides.html#magisk-modules) first.
-
-In addition, currently the only necessary file (folder) is `/data/adb/riru/modules/<name>`. Riru will check if it exists and load `/system/lib(64)/libriru_<name>.so`.
-
-## API changes
-
-### API v10 (from Riru v23)
-
-<details>
-  <summary><b>Background of rirud:</b></summary>
-
-  Riru v22.0 move config files to `/data/adb`, this makes patch SELinux rules a must. However Magisk's `sepolicy.rule` actually not work for maybe lots of devices. As the release of Riru v22.0, these people "suddenly" appears.
-
-  `sepolicy.rule` support was added from Magisk v20.2, a long time ago, no one report to Magisk 😒.
-
-  To workaround this "problem", "rirud" is introduced. It will be started by `post-fs-data.sh` and run a socket runs under `u:r:zygote:s0` context. All file operations can be done through this socket.
-</details>
+[Riru-ModuleTemplate](https://github.com/RikkaApps/Riru-ModuleTemplate)
 
 
-From Riru v23, "read file" and "read dir" function are added for "rirud". Modules can use this to read files that zygote itself has not permission to access. Note, for hide purpose, "rirud" socket is only available before system_server is started.
+#### 目的 & 功能
 
-In order to give the module enough freedom (like how to allocate memory), there is no "API". The module needs to implement socket codes by itself.
+- frida 持久化
+- frida 代码能够hook同一个应用的不同进程
+- 应用白名单（避免和其他hook框架冲突）
+- 为了用于生产环境而不是调试环境
 
-<details>
+#### 适配Android版本
 
-  <summary><b>Pseudocode of read file:</b></summary>
+Android 9，Android 10 
 
-```
-socket(PF_UNIX, SOCK_STREAM)
-setup_sockaddr("rirud")
 
-write(ACTION_READ_FILE /* 4 */, sizeof(uint32))
-write(path_size, sizeof(uint32))
-write(path, path_size)
+#### 安装
 
-errno = read(sizeof(int32_t)) // errno of "open" in "rirud"
-if (errno != 0) return
+- 通过 twrp 刷入 magisk v22.1
+- 通过 magisk 刷入 riru ，目前测试过 v23.9 ~ v25.4.4 
+- 通过 magisk 刷入 riru-FridaGadgetRiruMoudle-v14.2.12.8.zip
 
-bytes_count = read(sizeof(int32_t))
+#### 编译 
 
-if (bytes_count > 0) {
-  // file has size
-  // read total "bytes_count" bytes
-} else if (bytes_count == 0) {
-  // file has no size, read until 0
-  // read until 0
-}
-```
+gradle assembleRelease
 
-</details>
+#### 配置
 
-<details>
 
-  <summary><b>Pseudocode of read dir:</b></summary>
+##### 1、白名单
+
+主要控制某个进程是不是要加载 `libgadget.so` ，防止和其他hook框架冲突
+
+/data/local/tmp/_white_list.config
 
 ```
-socket(PF_UNIX, SOCK_STREAM)
-setup_sockaddr("rirud")
+com.github.testapp1,com.github.testapp2
+```
+##### 2、gadget scriptdirectory 配置
 
-write(ACTION_READ_DIR /* 5 */, sizeof(uint32))
-write(path_size, sizeof(uint32))
-write(path, path_size)
+https://frida.re/docs/gadget/#scriptdirectory
 
-errno = read(sizeof(int32_t)) // errno of "opendir" in "rirud"
-if (errno != 0) return
+/data/local/tmp/frida_scripts
 
-while (true) {
-  write(1 /* continue */, sizeof(uint8))
-
-  reply = read(sizeof(int32))
-  if (reply == -1) break // end
-  if (reply != 0) continue  // reply is errno of "readdir" in "rirud"
-
-  d_type = read(sizeof(uchar))
-  d_name = read(256)
-}
+```
+twitter.js
+twitter.config
 ```
 
-</details>
-
-Example implementation: <https://github.com/RikkaApps/Riru-LocationReportEnabler/commit/89b2e396efcd928121ba3d254b96af1560cfaf4d>
-
-### API v9 (from Riru v22)
-
-#### API
-
-Functions like `nativeForkAnd...` do not need to be exported directly. The only function to export is `void *init(void *)`. See the comment of `init` and template's implementation for more.
-
-This has these advantages:
-
-* Module can support different Riru versions
-* Riru itself will not relay on ".prop" file (unreliable) to get module information
-
-#### Riru
-
-Starting v22.0, Riru has switched to "native bridge" (`ro.dalvik.vm.native.bridge`) to inject zygote, this will lead Riru and modules be loaded later ([`LoadNativeBridge`](https://cs.android.com/android/platform/superproject/+/android-11.0.0_r1:art/libnativebridge/native_bridge.cc;l=227) vs `__attribute__((constructor))`).
-
-For most modules, this should have no problem, but modules like Xposed frameworks may have to make changes.
-
-> Magisk may provider Riru-like features in the far future, and of course, it will have more strict restrictions, module codes will not be run in zygote. Maybe Xposed framework modules should prepare for this?
-
-Riru v22 also provides hide function to make the memory of the module to anonymous memory ([see the implementation](https://github.com/RikkaApps/Riru/blob/master/core/src/main/cpp/hide.cpp)). This is an opt-in behavior (`module->supportHide`) and Riru itself also has a global toggle (`/data/adb/riru/enable_hide`).
-
-#### Module installer
-
-`RIRU_PATH` has been changed to `/data/adb/riru` for hide purpose. If you have other files in `/data/misc/riru`, move them here (or anywhere else if you want).
-
-Note `/data/adb/riru` have the same SELinux like other Magisk files (set by Riru in post-fs-data), `u:object_r:magisk_file:s0`. DO NOT reset the context to something else.
+twitter.config  配置文件的目的是为了指定是否应该为某个 app 加载 twitter.js hook 脚本

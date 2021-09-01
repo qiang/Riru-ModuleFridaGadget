@@ -3,8 +3,8 @@ ext {
     moduleName = "Frida-Gadget-Riru-Module"
     moduleAuthor = "BayBayMax"
     moduleDescription = "一个加载 FridaGadget 动态库的magisk 插件，依赖riru 框架"
-    moduleVersion = "v14.2.12.8"
-    moduleVersionCode = 14_2_12_8
+    moduleVersion = "v14.2.12.9"
+    moduleVersionCode = 14_2_12_9
 
     moduleMinRiruApiVersion = 9
     moduleMinRiruVersionName = "v22.0"

@@ -1,4 +1,4 @@
-#### 说明
+#### 1、说明
 
 firda gadget 模式支持如下四种模式：
 
@@ -12,32 +12,32 @@ firda gadget 模式支持如下四种模式：
 [Riru-ModuleTemplate](https://github.com/RikkaApps/Riru-ModuleTemplate)
 
 
-#### 目的 & 功能
+#### 2、 目的 & 功能
 
 - frida 持久化
 - frida 代码能够hook同一个应用的不同进程
 - 应用白名单（避免和其他hook框架冲突）
 - 为了用于生产环境而不是调试环境
 
-#### 适配Android版本
+#### 3、适配Android版本
 
 Android 9，Android 10 
 
 
-#### 安装
+#### 4、安装
 
 - 通过 twrp 刷入 magisk v22.1
 - 通过 magisk 刷入 riru ，目前测试过 v23.9 ~ v25.4.4 
 - 通过 magisk 刷入 riru-FridaGadgetRiruMoudle-v14.2.12.8.zip
 
-#### 编译 
+#### 5、编译 
 
 gradle assembleRelease
 
-#### 配置
+#### 6、配置
 
 
-##### 1、白名单
+##### 6.1、白名单
 
 主要控制某个进程是不是要加载 `libgadget.so` ，防止和其他hook框架冲突
 
@@ -46,7 +46,7 @@ gradle assembleRelease
 ```
 com.github.testapp1,com.github.testapp2
 ```
-##### 2、gadget scriptdirectory 配置
+##### 6.2、gadget scriptdirectory 配置
 
 https://frida.re/docs/gadget/#scriptdirectory
 
@@ -58,3 +58,10 @@ twitter.config
 ```
 
 twitter.config  配置文件的目的是为了指定是否应该为某个 app 加载 twitter.js hook 脚本
+
+
+#### 7、构建用于调试的工具
+
+开发一个图形界面用于配置配置文件和传输js脚本
+
+图形界面控制gadget的动态库可选

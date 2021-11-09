@@ -38,11 +38,9 @@ gradle assembleRelease
 
 ##### 6.1、白名单
 
-主要控制某个进程是不是要加载 `libgadget.so` ，防止和其他hook框架冲突
+`/data/local/tmp/_white_list.config`
 
-/data/local/tmp/_white_list.config
-
-我写的这个白名单是控制进程是不是加载 gadget 的so的，目的是为了在手机上同时兼容xposed，要不然一个进程启动的时候同时加载 xposed 的so和 gadget.so  这时候进程会卡死。
+我写的这个白名单是控制进程是不是需要加载 gadget 的so的，目的是为了在手机上同时兼容xposed，要不然一个进程启动的时候同时加载 xposed 的so和 gadget.so  这时候进程会卡死。
 
 这个配置文件格式很简单，就是把app进程名(包名)用逗号隔开，比如：
 
@@ -56,7 +54,7 @@ com.twitter.twitter,com.github.testapp1,com.github.testapp2
 
 https://frida.re/docs/gadget/#scriptdirectory
 
-我把 gadget 的这个识别的目录硬编码在了 `/data/local/tmp/frida_scripts` 如果有修改，可以修改后自己编译当前项目。
+我把 gadget 的这个识别的目录硬编码指定在了 `/data/local/tmp/frida_scripts` 如果有需要，可以修改后自己编译当前项目。
 
 那么以twitter 手机目录结构如下为例：
 ```

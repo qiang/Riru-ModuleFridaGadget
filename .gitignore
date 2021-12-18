@@ -12,3 +12,4 @@
 /out
 .externalNativeBuild
 .cxx
+git-email.sh

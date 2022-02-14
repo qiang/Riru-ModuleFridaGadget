@@ -11,6 +11,8 @@ firda gadget 模式支持如下四种模式：
 
 [Riru-ModuleTemplate](https://github.com/RikkaApps/Riru-ModuleTemplate)
 
+本项目使用的是 [API 10 (Riru v23)](https://github.com/RikkaApps/Riru-ModuleTemplate#api-10-riru-v23) 来编译的
+
 
 #### 2、 目的 & 功能
 
@@ -21,11 +23,11 @@ firda gadget 模式支持如下四种模式：
 
 #### 3、适配Android版本
 
-Android 9，Android 10 
+Android 9，Android 10 ，？
 
 #### 4、安装
 
-- 通过 twrp 刷入 magisk v22.1(或者官网推荐方式)
+- 通过 twrp 刷入 magisk v21 - v22.1(或者官网推荐方式)
 - 通过 magisk 刷入 riru ，目前测试过 v23.9 ~ v25.4.4 
 - 通过 magisk 刷入 riru-FridaGadgetRiruMoudle-v14.2.12.9.zip
 - 记得重启手机

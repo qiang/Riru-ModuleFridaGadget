@@ -2,10 +2,10 @@
 
 firda gadget 模式支持如下四种模式：
 
-   - Listen
-   - Connect
-   - Script
-   - ScriptDirectory
+   - Listen（部分支持，不支持 `"on_load": "wait"`）
+   - Connect (?)
+   - Script （完整支持）
+   - ScriptDirectory（完整支持）
    
 我没有全部测试，根据使用目的不同，我现在只需要最后一种，主要用于大规模手机部署hook功能，为了把 libgadget.so 注入到进程，所以选择了 magisk + riru 的模式，通过自定义riru模块在riru的回调里面加载 libgadget.so 
 
